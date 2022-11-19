@@ -1,7 +1,8 @@
 ﻿CREATE TABLE [master].[workflow]
 (
-	[Id] uniqueidentifier not null primary key default newid(),
+	[id] int not null primary key identity(1, 1),
 	[name] nvarchar(max) not null,
+	[description] nvarchar(max) null,
 	[isactive] bit not null default 1,
 	[type] bigint null,
 	[createdby] bigint,

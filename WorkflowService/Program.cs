@@ -1,49 +1,48 @@
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using Dapper;
-using System.Data;
 using Microsoft.Data.SqlClient;
+using WorkflowService.models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
-   .AddNegotiate();
 builder.Configuration.AddJsonFile("appsettings.json");
-builder.Services.AddAuthorization(options =>
-{
-    // By default, all incoming requests will be authorized according to the default policy.
-    // options.FallbackPolicy = options.DefaultPolicy;
-});
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-
+app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
+app.UseAuthorization(); 
 
 var connectionString = app.Configuration.GetSection("ConnectionStrings").GetSection("WorkflowDB").Value;
 
-var summaries = new[]
+app.MapGet("/", () =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateTime.Now.AddDays(index),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    return "Workflow Service v1.0";
 });
 
-app.MapPost("/user/add", (object user) =>
+app.MapGet("/user/{username}", (string username) =>
+{
+    using (var sqlConnection = new SqlConnection(connectionString))
+    {
+        var workflow = sqlConnection.Query("SELECT * FROM master.users where name = '" + username + "'");
+        return workflow;
+    }
+});
+
+app.MapPost("/user/add", (users user) =>
+{
+    using (var sqlConnection = new SqlConnection(connectionString))
+    {
+        var workflow = sqlConnection.Query(string.Format("insert into master.users(name, password) " +
+            "values ({0}, {1}", user.name, user.password));
+        return workflow;
+    }
+});
+
+app.MapGet("/user/{user_id}/workflow/all", (int user_id) =>
 {
     using (var sqlConnection = new SqlConnection(connectionString))
     {
@@ -52,7 +51,28 @@ app.MapPost("/user/add", (object user) =>
     }
 });
 
-app.MapGet("/user/{userId}/workflow/all", (int userId) =>
+app.MapGet("/user/{user_id}/workflow/{workflow_id}", (int user_id, int workflow_id) =>
+{
+    using (var sqlConnection = new SqlConnection(connectionString))
+    {
+        var workflow = sqlConnection.Query(string.Format("SELECT * FROM master.workflow " +
+            "where id = {0} and id in (select workflowid from map.workflow_user where userid = {1})", workflow_id, user_id));
+        return workflow;
+    }
+});
+
+app.MapPost("user/{user_id}/add_workflow/{workflow_id}", (workflow_user wuser) =>
+{
+    using (var sqlConnection = new SqlConnection(connectionString))
+    {
+        var workflow = sqlConnection.Query(string.Format("insert into map.worklow_user(workflowid, userid) " +
+            "values ({0}, {1})", wuser.workflowid, wuser.userid));
+        return workflow;
+    }
+});
+
+
+app.MapGet("/workflow/all", () =>
 {
     using (var sqlConnection = new SqlConnection(connectionString))
     {
@@ -61,12 +81,34 @@ app.MapGet("/user/{userId}/workflow/all", (int userId) =>
     }
 });
 
+app.MapGet("/workflow/{id}", (int id) =>
+{
+    using (var sqlConnection = new SqlConnection(connectionString))
+    {
+        var workflow = sqlConnection.Query("SELECT * FROM master.workflow where id = " + id);
+        return workflow;
+    }
+});
+
+app.MapPost("workflow/add", (workflow wf) =>
+{
+    using (var sqlConnection = new SqlConnection(connectionString))
+    {
+        var workflow = sqlConnection.Query(string.Format("insert into master.workflow(name, description) " +
+            "values ('{0}', '{1}')", wf.name, wf.description));
+        return workflow;
+    }
+});
+
+app.MapDelete("workflow/delete", (int id) =>
+{
+    using (var sqlConnection = new SqlConnection(connectionString))
+    {
+        var workflow = sqlConnection.Query(string.Format("delete from master.workflow where id = {0}", id));
+        return workflow;
+    }
+});
+
+app.UseSwagger();
+app.UseSwaggerUI();
 app.Run();
-
-internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
-
-
-
