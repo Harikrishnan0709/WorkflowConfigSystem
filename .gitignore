@@ -124,3 +124,6 @@ WorkflowService/bin/Debug/net6.0/Microsoft.OpenApi.dll
 WorkflowService/bin/Debug/net6.0/Swashbuckle.AspNetCore.Swagger.dll
 WorkflowService/bin/Debug/net6.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 WorkflowService/bin/Debug/net6.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+WorkflowService/obj/
+
+.fake

@@ -1,0 +1,32 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [map] (Schema)
+       [master] (Schema)
+       [map].[workflow_user] (Table)
+       [master].[users] (Table)
+       [master].[workflow] (Table)
+       [master].[activity] (Table)
+       Default Constraint: unnamed constraint on [map].[workflow_user] (Default Constraint)
+       Default Constraint: unnamed constraint on [map].[workflow_user] (Default Constraint)
+       Default Constraint: unnamed constraint on [master].[users] (Default Constraint)
+       Default Constraint: unnamed constraint on [master].[users] (Default Constraint)
+       Default Constraint: unnamed constraint on [master].[users] (Default Constraint)
+       Default Constraint: unnamed constraint on [master].[workflow] (Default Constraint)
+       Default Constraint: unnamed constraint on [master].[workflow] (Default Constraint)
+       Default Constraint: unnamed constraint on [master].[workflow] (Default Constraint)
+       Default Constraint: unnamed constraint on [master].[activity] (Default Constraint)
+       Default Constraint: unnamed constraint on [master].[activity] (Default Constraint)
+       Default Constraint: unnamed constraint on [master].[activity] (Default Constraint)
+       Default Constraint: unnamed constraint on [master].[activity] (Default Constraint)
+
+** Supporting actions

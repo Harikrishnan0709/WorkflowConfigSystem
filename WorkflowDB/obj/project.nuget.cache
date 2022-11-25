@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "czaVfpoj6MDehG1ZdBBXThzhptfHULpqJ32yTCcCXc71x+FjUNJS3sMVNhJr/jgGGl67J80tFMJ6MbyDNeMGMg==",
+  "success": true,
+  "projectFilePath": "c:\\Users\\Hari Krishnan\\source\\repos\\WorkflowConfigSystem\\WorkflowDB\\WorkflowDB.sqlproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Hari Krishnan\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.0\\microsoft.netframework.referenceassemblies.1.0.0.nupkg.sha512",
+    "C:\\Users\\Hari Krishnan\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net46\\1.0.0\\microsoft.netframework.referenceassemblies.net46.1.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -58,10 +58,23 @@
     <Folder Include="Properties" />
     <Folder Include="schema" />
     <Folder Include="table" />
-    <Folder Include="stored_procedures" />
+    <Folder Include="table\master" />
+    <Folder Include="table\map" />
+    <Folder Include="data" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="schema\master.sql" />
-    <Build Include="table\workflow.sql" />
+    <Build Include="schema\map.sql" />
+    <Build Include="table\master\users.sql" />
+    <Build Include="table\master\workflow.sql" />
+    <Build Include="table\map\workflow_user.sql" />
+    <Build Include="table\master\activity.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="WorkflowDB.publish.xml" />
+    <PostDeploy Include="data\post_deployment_script.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="WorkflowDB.refactorlog" />
   </ItemGroup>
 </Project>

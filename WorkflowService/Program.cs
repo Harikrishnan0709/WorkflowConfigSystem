@@ -109,6 +109,17 @@ app.MapDelete("workflow/delete", (int id) =>
     }
 });
 
+
+app.MapPost("workflow/{id}/activity/add", (activity a) =>
+{
+    using (var sqlConnection = new SqlConnection(connectionString))
+    {
+        var workflow = sqlConnection.Query(string.Format("insert into master.activity(name, caption, parentid) " +
+            "values ('{0}', '{1}', (select top 1 isnull(id, 0) from master.activity where name = '{2}'))", a.name, a.caption, a.parent_caption));
+        return workflow;
+    }
+});
+
 app.UseSwagger();
 app.UseSwaggerUI();
 app.Run();

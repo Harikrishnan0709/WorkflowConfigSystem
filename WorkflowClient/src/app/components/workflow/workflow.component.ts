@@ -1,4 +1,3 @@
-import { identifierName } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppService } from 'src/app/app.service';
@@ -12,6 +11,7 @@ import { workflow } from 'src/app/model/workflow_model';
 export class WorkflowComponent implements OnInit {
   selectedWf: workflow = new workflow();
   collapsed: boolean = false;
+  active: number = 0;
   constructor(
     public route: ActivatedRoute,
     public appService: AppService
