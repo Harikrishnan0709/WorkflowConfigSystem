@@ -1,0 +1,28 @@
+<button class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;Add Activity</button>
+<ng-template #content let-offcanvas>
+    <div class="offcanvas-header">
+        <h4 class="offcanvas-title">New Workflow</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
+    </div>
+    <div class="offcanvas-body" style="margin: 8px;">
+        <div class="row">
+            <label for="exampleFormControlTextarea1" class="form-label">Workflow name: </label>
+            <input class="form-control" type="text" id="exampleFormControlTextarea1"
+                [(ngModel)]="selectedActivity.caption">
+            <div class="invalid-feedback">
+                Please enter a workflow name.
+            </div>
+        </div>
+        <div class="row">
+            <label for="exampleFormControlTextarea2" class="form-label">Workflow description: </label>
+            <textarea class="form-control" type="text" id="exampleFormControlTextarea2"
+                [(ngModel)]="selectedActivity.caption">
+                </textarea>
+        </div>
+    </div>
+    <div class="offcanvas-footer text-end">
+        <button type="button" class="btn btn-primary" style="margin: 2px">Create</button>
+        <button type="button" class="btn btn-outline-dark" style="margin: 2px"
+            (click)="offcanvas.close('Close click')">Close</button>
+    </div>
+</ng-template>

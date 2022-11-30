@@ -10,13 +10,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { WorkflowComponent } from './components/workflow/workflow.component';
+import { ActivityViewerComponent } from './components/workflow/activity-viewer/activity-viewer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    WorkflowComponent
+    WorkflowComponent,
+    ActivityViewerComponent
   ],
   imports: [
     BrowserModule,

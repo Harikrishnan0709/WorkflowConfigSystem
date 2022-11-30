@@ -26,6 +26,10 @@ export class AppService {
     return this.http.delete(environment.service + 'workflow/delete', { params: { id: id } });
   }
 
+  addActivity() {
+
+  }
+
   login(user: user) {
     return this.http.get(environment.service + 'user/' + user.name);
   }
