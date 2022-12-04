@@ -1,52 +1,54 @@
-<div class="row">
-    <div class="col"><button type="button" class="btn btn-primary" (click)="openEnd(content)"><i
-                class="fa fa-plus"></i>&nbsp;Add
-            Workflow</button></div>
-</div>
-<div class="row row-cols-1 row-cols-md-3 g-4" *ngIf="workflows" (contextmenu)="false">
-    <div class="col" *ngFor="let wf of workflows" (contextmenu)="myDrop.open();" (click)="navigateToWorkflow(wf.id)"
-        (mouseleave)="myDrop.close()" ngbDropdown #myDrop="ngbDropdown">
-        <div class="card h-100">
-            <div class="card-body">
-                <h5 class="card-title">{{ wf.name }}</h5>
-                <p class="card-text">{{ wf.description }}</p>
-            </div>
-            <div class="card-footer">
-                <small class="text-muted">Created on <b>{{ dateTime(wf.createdon) }}</b></small>
+<div style="padding: 8px;">
+    <div class="row">
+        <div class="col"><button type="button" class="btn btn-primary" (click)="openEnd(content)"><i
+                    class="fa fa-plus"></i>&nbsp;Add
+                Workflow</button></div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-3 g-4" *ngIf="workflows" (contextmenu)="false">
+        <div class="col" *ngFor="let wf of workflows" (contextmenu)="myDrop.open();" (click)="navigateToWorkflow(wf.id)"
+            (mouseleave)="myDrop.close()" ngbDropdown #myDrop="ngbDropdown">
+            <div class="card h-100" style="margin: 4px;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ wf.name }}</h5>
+                    <p class="card-text">{{ wf.description }}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Created on <b>{{ dateTime(wf.createdon) }}</b></small>
 
+                </div>
             </div>
-        </div>
-        <div ngbDropdownMenu aria-labelledby="dropdownManual">
-            <button class="btn btn-danger" (click)="deleteWorkflow(wf)" ngbDropdownItem><i
-                    class="fa fa-trash"></i>&nbsp;Delete</button>
+            <div ngbDropdownMenu aria-labelledby="dropdownManual">
+                <button class="btn btn-danger" (click)="deleteWorkflow(wf)" ngbDropdownItem><i
+                        class="fa fa-trash"></i>&nbsp;Delete</button>
+            </div>
         </div>
     </div>
-
-</div>
-<ng-template #content let-offcanvas>
-    <div class="offcanvas-header">
-        <h4 class="offcanvas-title">New Workflow</h4>
-        <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
-    </div>
-    <div class="offcanvas-body" style="margin: 8px;">
-        <div class="row">
-            <label for="exampleFormControlTextarea1" class="form-label">Workflow name: </label>
-            <input class="form-control" type="text" id="exampleFormControlTextarea1"
-                [(ngModel)]="selectedWorkflow.name">
-            <div class="invalid-feedback">
-                Please enter a workflow name.
-            </div>
+    <ng-template #content let-offcanvas>
+        <div class="offcanvas-header">
+            <h4 class="offcanvas-title">New Workflow</h4>
+            <button type="button" class="btn-close" aria-label="Close"
+                (click)="offcanvas.dismiss('Cross click')"></button>
         </div>
-        <div class="row">
-            <label for="exampleFormControlTextarea2" class="form-label">Workflow description: </label>
-            <textarea class="form-control" type="text" id="exampleFormControlTextarea2"
-                [(ngModel)]="selectedWorkflow.description">
+        <div class="offcanvas-body" style="margin: 8px;">
+            <div class="row">
+                <label for="exampleFormControlTextarea1" class="form-label">Workflow name: </label>
+                <input class="form-control" type="text" id="exampleFormControlTextarea1"
+                    [(ngModel)]="selectedWorkflow.name">
+                <div class="invalid-feedback">
+                    Please enter a workflow name.
+                </div>
+            </div>
+            <div class="row">
+                <label for="exampleFormControlTextarea2" class="form-label">Workflow description: </label>
+                <textarea class="form-control" type="text" id="exampleFormControlTextarea2"
+                    [(ngModel)]="selectedWorkflow.description">
                 </textarea>
+            </div>
         </div>
-    </div>
-    <div class="offcanvas-footer text-end">
-        <button type="button" class="btn btn-primary" style="margin: 2px" (click)="addWorkflow()">Create</button>
-        <button type="button" class="btn btn-outline-dark" style="margin: 2px"
-            (click)="offcanvas.close('Close click')">Close</button>
-    </div>
-</ng-template>
+        <div class="offcanvas-footer text-end">
+            <button type="button" class="btn btn-primary" style="margin: 2px" (click)="addWorkflow()">Create</button>
+            <button type="button" class="btn btn-outline-dark" style="margin: 2px"
+                (click)="offcanvas.close('Close click')">Close</button>
+        </div>
+    </ng-template>
+</div>

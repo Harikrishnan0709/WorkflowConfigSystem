@@ -11,7 +11,15 @@ import { workflow } from 'src/app/model/workflow_model';
 })
 export class HomeComponent implements OnInit {
   selectedWorkflow: workflow = new workflow();
-  workflows: workflow[] = [];
+  workflows: workflow[] = [
+    { name: 'Test workflow',  description: 'Sample workflow for testing and learning'},
+    { name: 'Product analysis',  description: 'Product analysis and the finance tracking'},
+    { name: 'Employee report workflow',  description: 'Stores employee details'},
+    { name: 'Development Tracking',  description: 'Application development team workflow'},
+    { name: 'Audit workflow',  description: 'Audit based financial workflow'},
+    { name: 'Human resource workflow',  description: 'Human resource information and the tasks configuration'},
+    { name: 'Company archive workflow',  description: 'Storage of company data and archives'},
+  ];
   constructor(
     public offcanvasService: NgbOffcanvas,
     public appService: AppService,

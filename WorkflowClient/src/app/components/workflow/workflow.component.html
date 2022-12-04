@@ -3,7 +3,7 @@
         <button class="btn btn-primary" title="Back to Home" routerLink="/home"><i
                 class="fa fa-arrow-left"></i></button>&nbsp;&nbsp;&nbsp;
         <span class="navbar-brand">Activity Designer</span>
-        <button class="navbar-toggler" type="button" aria-controls="navbarContent" [attr.aria-expanded]="!collapsed"
+        <button class="navbar-toggler" type="button" aria-controls="navbarContent" [attr.aria-expanded]="collapsed"
             aria-label="Toggle navigation" (click)="collapsed = !collapsed">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -11,11 +11,12 @@
         <div class="navbar-collapse" [class.collapse]="collapsed" id="navbarContent">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item" ngbDropdown>
-                    <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Static </a>
+                    <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown1" role="button"> Preferences
+                    </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
-                        <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Action</a>
-                        <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Another action</a>
-                        <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Something else here</a>
+                        <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Update project details</a>
+                        <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Add user</a>
+                        <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Reports</a>
                     </div>
                 </li>
 
@@ -30,7 +31,7 @@
                 </li>
 
                 <li class="nav-item" ngbDropdown display="dynamic" placement="bottom-end">
-                    <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown3" role="button"> Dynamic </a>
+                    <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown3" role="button"> Logout </a>
                     <div ngbDropdownMenu aria-labelledby="navbarDropdown3" class="dropdown-menu">
                         <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Action</a>
                         <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Another action</a>
@@ -41,4 +42,140 @@
         </div>
     </div>
 </nav>
+<h4>
 {{ selectedWf.name }}
+</h4>
+<div class="row">
+    <div class="col">
+        <div class="col"><button type="button" class="btn btn-primary" (click)="openEnd(content)"><i
+            class="fa fa-plus"></i>&nbsp;Add Activity</button></div>
+    </div>
+</div>
+<ng-template #content let-offcanvas>
+    <div class="offcanvas-header">
+        <h4 class="offcanvas-title">New Activity</h4>
+        <button type="button" class="btn-close" aria-label="Close"
+            (click)="offcanvas.dismiss('Cross click')"></button>
+    </div>
+    <div class="offcanvas-body" style="margin: 8px;">
+        <div class="row">
+            <label for="exampleFormControlTextarea1" class="form-label">Workflow name: </label>
+            <input class="form-control" type="text" id="exampleFormControlTextarea1"
+                value="Approval Activity">
+            <div class="invalid-feedback">
+                Please enter a workflow name.
+            </div>
+        </div>
+        <div class="row">
+            <label for="exampleFormControlTextarea2" class="form-label">Workflow description: </label>
+            <textarea class="form-control" type="text" id="exampleFormControlTextarea2">Approval based activity for new user and request
+            </textarea>
+        </div>
+        <div class="row">
+            <label for="exampleFormControlTextarea2" class="form-label">Activity type: </label>
+            <select class="form-select">
+                <option>Dashboard</option>
+                <option>Activity</option>
+                <option>Sub activity</option>
+            </select>
+        </div>
+    </div>
+    <div class="offcanvas-footer text-end">
+        <button type="button" class="btn btn-primary" style="margin: 2px" >Create</button>
+        <button type="button" class="btn btn-outline-dark" style="margin: 2px"
+            (click)="offcanvas.close('Close click')">Close</button>
+    </div>
+</ng-template>
+
+<form>
+	<table class="table table-striped" style="margin:2%; width: 96%">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col" sortable="name">Activity</th>
+				<th scope="col" sortable="area">Description</th>
+				<th scope="col" sortable="population">Activity type</th>
+				<th scope="col" sortable="population">Parent</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let activity of activities">
+				<th scope="row">{{ activity.id }}</th>
+				<td (click)="openPopup(activitycontent)" style="text-decoration: underline;">
+					<ngb-highlight [result]="activity.name"></ngb-highlight>
+				</td>
+				<td><ngb-highlight [result]="activity.description"></ngb-highlight></td>
+				<td><ngb-highlight [result]="activity.type"></ngb-highlight></td>
+				<td><ngb-highlight [result]="activity.parent"></ngb-highlight></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="d-flex justify-content-between p-2">
+		<ngb-pagination [collectionSize]="12">
+		</ngb-pagination>
+
+		<select class="form-select" style="width: auto" name="pageSize">
+			<option [ngValue]="2">5 items per page</option>
+			<option [ngValue]="4">4 items per page</option>
+			<option [ngValue]="6">6 items per page</option>
+		</select>
+	</div>
+</form>
+
+<ng-template #activitycontent let-offcanvas>
+    <div class="modal-header">
+        <h4 class="modal-title">Requests</h4>
+        <button type="button" class="btn-close" aria-label="Close"
+            (click)="offcanvas.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body" style="margin: 8px;">
+        <form class="row g-3">
+            <div class="col-md-6">
+              <label for="inputEmail4" class="form-label">Email</label>
+              <input type="email" class="form-control" id="inputEmail4">
+            </div>
+            <div class="col-md-6">
+              <label for="inputPassword4" class="form-label">Password</label>
+              <input type="password" class="form-control" id="inputPassword4">
+            </div>
+            <div class="col-12">
+              <label for="inputAddress" class="form-label">Address</label>
+              <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+            </div>
+            <div class="col-12">
+              <label for="inputAddress2" class="form-label">Address 2</label>
+              <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+            </div>
+            <div class="col-md-6">
+              <label for="inputCity" class="form-label">City</label>
+              <input type="text" class="form-control" id="inputCity">
+            </div>
+            <div class="col-md-4">
+              <label for="inputState" class="form-label">State</label>
+              <select id="inputState" class="form-select">
+                <option selected>Choose...</option>
+                <option>...</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label for="inputZip" class="form-label">Zip</label>
+              <input type="text" class="form-control" id="inputZip">
+            </div>
+            <div class="col-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck">
+                <label class="form-check-label" for="gridCheck">
+                  Check me out
+                </label>
+              </div>
+            </div>
+          </form>
+    </div>
+    <div class="modal-footer text-end">
+        <button type="button" class="btn btn-primary" style="margin: 2px"
+            (click)="offcanvas.close('Close click')">Submit</button>
+        <button type="button" class="btn btn-outline-dark" style="margin: 2px"
+            (click)="offcanvas.close('Close click')">Close</button>
+    </div>
+</ng-template>

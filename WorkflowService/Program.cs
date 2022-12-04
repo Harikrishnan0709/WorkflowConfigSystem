@@ -14,7 +14,7 @@ var app = builder.Build();
 
 app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.UseHttpsRedirection();
-app.UseAuthorization(); 
+app.UseAuthorization();
 
 var connectionString = app.Configuration.GetSection("ConnectionStrings").GetSection("WorkflowDB").Value;
 
@@ -66,7 +66,7 @@ app.MapPost("user/{user_id}/add_workflow/{workflow_id}", (workflow_user wuser) =
     using (var sqlConnection = new SqlConnection(connectionString))
     {
         var workflow = sqlConnection.Query(string.Format("insert into map.worklow_user(workflowid, userid) " +
-            "values ({0}, {1})", wuser.workflowid, wuser.userid));
+            "values ({0}, {1})", wuser.workflow_id, wuser.userid));
         return workflow;
     }
 });
@@ -90,6 +90,15 @@ app.MapGet("/workflow/{id}", (int id) =>
     }
 });
 
+app.MapGet("/workflow/{id}/activities", (int id) =>
+{
+    using (var sqlConnection = new SqlConnection(connectionString))
+    {
+        var workflow = sqlConnection.Query("SELECT * FROM master.activity where id in (select activity_id from map.workflow_activity where workflow_id = " + id + ")");
+        return workflow;
+    }
+});
+
 app.MapPost("workflow/add", (workflow wf) =>
 {
     using (var sqlConnection = new SqlConnection(connectionString))
@@ -105,6 +114,56 @@ app.MapDelete("workflow/delete", (int id) =>
     using (var sqlConnection = new SqlConnection(connectionString))
     {
         var workflow = sqlConnection.Query(string.Format("delete from master.workflow where id = {0}", id));
+        return workflow;
+    }
+});
+
+app.MapGet("activity/{id}", (int id) =>
+{
+    using (var sqlConnection = new SqlConnection(connectionString))
+    {
+        var workflow = sqlConnection.Query(string.Format("select * from master.activity where id = {0}", id));
+        return workflow;
+    }
+});
+
+app.MapPost("activity/add", (activity a) =>
+{
+    using (var sqlConnection = new SqlConnection(connectionString))
+    {
+        var workflow = sqlConnection.Query(string.Format("insert into master.activty(id, name, caption, description, parent_id)" +
+            "values({0}, {1}, {2}, {3}, {4})", a.id, a.name, a.caption, a.description, a.parent_id));
+        return workflow;
+    }
+});
+
+
+app.MapPost("workflow/{id}/add_activity", (int id, activity a) =>
+{
+    using (var sqlConnection = new SqlConnection(connectionString))
+    {
+        var workflow = sqlConnection.Query(string.Format("insert into map.workflow_activity(workflow_id, activity_id)" +
+            "values({0}, {1})", id, a.id));
+        return workflow;
+    }
+});
+
+app.MapPost("activity/delete", (int id) =>
+{
+    using (var sqlConnection = new SqlConnection(connectionString))
+    {
+        var workflow = sqlConnection.Query(string.Format("delete from master.activity where id = {0}", id));
+        return workflow;
+    }
+});
+
+
+app.MapPost("activity/{id}/add_control", (int id, control c) =>
+{
+    using (var sqlConnection = new SqlConnection(connectionString))
+    {
+        var workflow = sqlConnection.Query(string.Format("insert into map.controls(activity_id, name, caption, control_type, enabled, visible, parent_id)" +
+            "values({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7})", id, c.name, c.caption, c.control_type, c.enabled, c.visible, c.parent_id));
         return workflow;
     }
 });
